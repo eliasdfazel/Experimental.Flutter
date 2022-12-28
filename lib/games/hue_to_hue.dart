@@ -18,12 +18,14 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
   List<Color> gradientColors = [];
 
+  List<Color> newGradientColors = [];
+
   @override
   void initState() {
     super.initState();
 
     for (int i = 0; i < gradientLayersCount; i++) {
-      gradientColors.add(Colors.transparent);
+      newGradientColors.add(Colors.transparent);
     }
 
     animateColor();
@@ -50,15 +52,15 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
         }
 
-        gradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
+        newGradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
 
         if (index < gradientIndex) {
 
-          gradientColors[index] = previousColor;
+          newGradientColors[index] = previousColor;
 
         } else if (index > gradientIndex) {
 
-          gradientColors[index] = beginColor;
+          newGradientColors[index] = beginColor;
 
         }
 
@@ -66,7 +68,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
       setState(() {
 
-        // gradientColors;
+        gradientColors = newGradientColors;
 
       });
 
@@ -137,7 +139,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
                               width: double.maxFinite,
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                      colors: gradientColors,
+                                      colors: List.generate(gradientColors.length, (index) => gradientColors[index]),
                                       transform: const GradientRotation(-45)
                                   )
                               )
