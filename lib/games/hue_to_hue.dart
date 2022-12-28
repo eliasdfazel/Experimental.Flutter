@@ -3,8 +3,8 @@ import 'package:experimental/resources/strings_resources.dart';
 import 'package:flutter/material.dart';
 
 class HueToHue extends StatefulWidget {
-  const HueToHue({super.key});
 
+  const HueToHue({super.key});
 
   @override
   State<HueToHue> createState() => _HueToHueState();
@@ -12,48 +12,98 @@ class HueToHue extends StatefulWidget {
 
 class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin  {
 
-  late Animation<Color?> animation;
-  late AnimationController controller;
+  late Animation<Color?> animationColor;
+
+  double gradientLayersCount = 3;
+
+  List<Color> gradientColors = [];
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(duration: const Duration(seconds: 7), vsync: this);
-    animation = ColorTween(begin: ColorsResources.pink, end: ColorsResources.cyan)
-        .animate(controller)
-        ..addListener(() {
+    for (int i = 0; i < gradientLayersCount; i++) {
+      gradientColors.add(Colors.transparent);
+    }
 
-          setState(() { });
-        })..addStatusListener((status) {
-
-          switch (status) {
-            case AnimationStatus.completed: {
-
-
-
-            }
-          }
-
-        });
+    animateColor();
 
   }
 
-  bool buttonToggle = true;
+  int gradientIndex = 0;
 
-  void animateColor() {
+  void animateColor({Color beginColor = ColorsResources.springColor, Color endColor = ColorsResources.winterColor}) {
 
-    if (buttonToggle) {
+    Color previousColor = endColor;
 
-      controller.forward();
+    AnimationController animationController = AnimationController(duration: const Duration(seconds: 5), vsync: this);
 
-    } else {
+    Animation<Color?> animationColor = ColorTween(begin: beginColor, end: endColor)
+        .animate(animationController);
 
-      controller.reverse();
+    animationColor..addListener(() {
+      debugPrint("Animation Color: -> ${animationColor.value}");
 
-    }
+      for (int index = 0; index < gradientLayersCount; index++) {
+        debugPrint("Animation Color Loop: ${index}");
 
-    buttonToggle = !buttonToggle;
+      //   if (gradientIndex == 0) {
+      //
+      //   }
+      //
+      //   gradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
+      //
+      //   if (index < gradientIndex) {
+      //
+      //     gradientColors[index] = previousColor;
+      //
+      //   } else if (index > gradientIndex) {
+      //
+      //     gradientColors[index] = beginColor;
+      //
+      //   }
+      //
+      // }
+
+      gradientColors = [
+        gradientColors[0] = beginColor,
+        gradientColors[1] = beginColor,
+        animationColor.value ?? ColorsResources.black,
+      ];
+
+      setState(() {
+
+        gradientColors;
+
+      });
+
+    })..addStatusListener((status) {
+
+      switch (status) {
+        case AnimationStatus.completed: {
+          debugPrint("Animation Status Completed: ${gradientIndex}");
+
+          // gradientIndex++;
+          //
+          // if (gradientIndex == gradientLayersCount) {
+          //   gradientIndex = 0;
+          // }
+
+          // animateColor();
+
+          break;
+        }
+        case AnimationStatus.dismissed:
+          break;
+        case AnimationStatus.forward:
+          break;
+        case AnimationStatus.reverse:
+          break;
+      }
+
+    });
+
+    animationController.forward();
 
   }
 
@@ -61,53 +111,50 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
 
     return SafeArea(
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(37),
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: StringsResources.applicationName(),
-            color: ColorsResources.primaryColor,
-            theme: ThemeData(
-              fontFamily: 'Ubuntu',
-              colorScheme: ColorScheme.fromSwatch().copyWith(secondary: ColorsResources.primaryColor),
-              backgroundColor: ColorsResources.black,
-              pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                TargetPlatform.android: ZoomPageTransitionsBuilder(),
-                TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-              }),
-            ),
-            home: Scaffold(
-                resizeToAvoidBottomInset: true,
-                extendBody: true,
-                backgroundColor: ColorsResources.yellow,
-                body: SizedBox(
-                    height: double.maxFinite,
-                    width: double.maxFinite,
-                    child: InkWell(
-                      onTap: () {
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(37),
+            child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: StringsResources.applicationName(),
+                color: ColorsResources.primaryColor,
+                theme: ThemeData(
+                  fontFamily: 'Ubuntu',
+                  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: ColorsResources.primaryColor),
+                  backgroundColor: ColorsResources.black,
+                  pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                    TargetPlatform.android: ZoomPageTransitionsBuilder(),
+                    TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+                  }),
+                ),
+                home: Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    extendBody: true,
+                    backgroundColor: ColorsResources.yellow,
+                    body: SizedBox(
+                        height: double.maxFinite,
+                        width: double.maxFinite,
+                        child: InkWell(
+                          onTap: () {
 
-                        animateColor();
 
-                      },
-                      child: Container(
-                          height: double.maxFinite,
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    ColorsResources.pink,
-                                    ColorsResources.pink,
-                                    animation.value!,
-                                  ],
-                                  transform: GradientRotation(-45)
+
+                          },
+                          child: Container(
+                              height: double.maxFinite,
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: gradientColors,
+                                      transform: const GradientRotation(-45)
+                                  )
                               )
-                          )
-                      ),
+                          ),
+                        )
                     )
                 )
             )
         )
-      )
     );
   }
+
 }
