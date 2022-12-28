@@ -1,5 +1,6 @@
 import 'package:experimental/resources/colors_resources.dart';
 import 'package:experimental/resources/strings_resources.dart';
+import 'package:experimental/utils/operations/numbers.dart';
 import 'package:flutter/material.dart';
 
 class HueToHue extends StatefulWidget {
@@ -135,14 +136,19 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
                           },
                           child: Container(
-                              height: double.maxFinite,
-                              width: double.maxFinite,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: List.generate(gradientColors.length, (index) => gradientColors[index]),
-                                      transform: const GradientRotation(-45)
-                                  )
-                              )
+                            height: double.maxFinite,
+                            width: double.maxFinite,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: List.generate(gradientColors.length, (index) => gradientColors[index]),
+                                    transform: GradientRotation(degreeToRadian(137))
+                                )
+                            ),
+                            child: Stack(
+                              children: [
+
+                              ],
+                            ),
                           ),
                         )
                     )

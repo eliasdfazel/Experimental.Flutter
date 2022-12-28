@@ -2,6 +2,7 @@ import 'package:experimental/games/hue_to_hue.dart';
 import 'package:experimental/resources/colors_resources.dart';
 import 'package:experimental/resources/strings_resources.dart';
 import 'package:experimental/utils/navigations/navigation_commands.dart';
+import 'package:experimental/utils/operations/numbers.dart';
 import 'package:flutter/material.dart';
 
 class EntryConfigurations extends StatefulWidget {
@@ -55,14 +56,14 @@ class _EntryConfigurationsState extends State<EntryConfigurations> with SingleTi
                         child: Container(
                             height: double.maxFinite,
                             width: double.maxFinite,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                    colors: [
+                                    colors: const [
                                       ColorsResources.pink,
                                       ColorsResources.blueGray
                                     ],
 
-                                    transform: GradientRotation(-45)
+                                    transform: GradientRotation(degreeToRadian(137))
                                 )
                             )
                         ),
