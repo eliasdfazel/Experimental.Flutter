@@ -45,35 +45,28 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
       debugPrint("Animation Color: -> ${animationColor.value}");
 
       for (int index = 0; index < gradientLayersCount; index++) {
-        debugPrint("Animation Color Loop: ${index}");
 
-      //   if (gradientIndex == 0) {
-      //
-      //   }
-      //
-      //   gradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
-      //
-      //   if (index < gradientIndex) {
-      //
-      //     gradientColors[index] = previousColor;
-      //
-      //   } else if (index > gradientIndex) {
-      //
-      //     gradientColors[index] = beginColor;
-      //
-      //   }
-      //
-      // }
+        if (gradientIndex == 0) {
 
-      gradientColors = [
-        gradientColors[0] = beginColor,
-        gradientColors[1] = beginColor,
-        animationColor.value ?? ColorsResources.black,
-      ];
+        }
+
+        gradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
+
+        if (index < gradientIndex) {
+
+          gradientColors[index] = previousColor;
+
+        } else if (index > gradientIndex) {
+
+          gradientColors[index] = beginColor;
+
+        }
+
+      }
 
       setState(() {
 
-        gradientColors;
+        // gradientColors;
 
       });
 
