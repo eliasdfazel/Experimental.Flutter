@@ -3,5 +3,8 @@ import 'package:flutter/material.dart';
 
 void main() async {
 
-  runApp(const EntryConfigurations());
+  runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: EntryConfigurations()
+  ));
 }
