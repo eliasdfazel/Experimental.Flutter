@@ -52,21 +52,23 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
     });
 
-    Future.delayed(const Duration(milliseconds: 999), () {
+    Future.delayed(const Duration(milliseconds: 1357), () {
 
-      animateColor();
+      animateColor(999, ColorsResources.dark, ColorsResources.winterColor);
 
     });
 
   }
 
-  void animateColor({int animationDuration = 3333, Color beginColor = ColorsResources.dark, Color endColor = ColorsResources.winterColor}) {
+  void animateColor(int animationDuration, Color beginColor, Color endColor) {
+
+    debugPrint("coooooooooloooooooooor");
+
+    animationController.duration = Duration(milliseconds: animationDuration);
 
     int gradientIndex = 0;
 
     animationController.reset();
-
-    animationController.duration = Duration(milliseconds: animationDuration);
 
     Color previousColor = endColor;
 
