@@ -24,7 +24,6 @@ class _EntryConfigurationsState extends State<EntryConfigurations> with SingleTi
   Widget build(BuildContext context) {
 
     return SafeArea(
-
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: StringsResources.applicationName(),
