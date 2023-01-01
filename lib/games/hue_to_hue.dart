@@ -50,12 +50,13 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
   }
 
-  int gradientIndex = 0;
+  void animateColor({int animationDuration = 3333, Color beginColor = ColorsResources.springColor, Color endColor = ColorsResources.winterColor}) {
 
-  void animateColor({Color beginColor = ColorsResources.springColor, Color endColor = ColorsResources.winterColor}) {
+    int gradientIndex = 0;
 
-    animationController.duration = Duration(milliseconds: 3000);
     animationController.reset();
+
+    animationController.duration = Duration(milliseconds: animationDuration);
 
     Color previousColor = endColor;
 
@@ -66,7 +67,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
     animationController.forward();
 
     animationColor..addListener(() {
-      debugPrint("Animation Color: -> ${animationColor.value}");
+      // debugPrint("Animation Color: -> ${animationColor.value}");
 
       for (int index = 0; index < gradientLayersCount; index++) {
 
