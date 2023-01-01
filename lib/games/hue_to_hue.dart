@@ -43,14 +43,24 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
     animationController = AnimationController(vsync: this);
 
     for (int i = 0; i < gradientLayersCount; i++) {
-      newGradientColors.add(Colors.transparent);
+      newGradientColors.add(ColorsResources.applicationGeeksEmpire);
     }
 
-    animateColor();
+    setState(() {
+
+      newGradientColors;
+
+    });
+
+    Future.delayed(const Duration(milliseconds: 999), () {
+
+      animateColor();
+
+    });
 
   }
 
-  void animateColor({int animationDuration = 3333, Color beginColor = ColorsResources.springColor, Color endColor = ColorsResources.winterColor}) {
+  void animateColor({int animationDuration = 3333, Color beginColor = ColorsResources.dark, Color endColor = ColorsResources.winterColor}) {
 
     int gradientIndex = 0;
 
@@ -60,9 +70,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
     Color previousColor = endColor;
 
-    ColorTween colorTween = ColorTween(begin: beginColor, end: endColor);
-
-    Animation<Color?> animationColor = colorTween.animate(animationController);
+    Animation<Color?> animationColor = ColorTween(begin: beginColor, end: endColor).animate(animationController);
 
     animationController.forward();
 
@@ -108,11 +116,30 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
           if (gradientIndex == gradientLayersCount) {
             debugPrint("Animation Status Restart");
 
-            gradientIndex = 0;
 
-            animationController.stop();
+            setState(() {
 
-            animateColor(beginColor: previousColor, endColor: allColors[Random().nextInt(allColors.length)]);
+              gradientIndex = 0;
+
+
+              animationColor = ColorTween(begin: previousColor, end: allColors[Random().nextInt(allColors.length)]).animate(animationController);
+
+            });
+
+            newGradientColors.clear();
+
+            for (int i = 0; i < gradientLayersCount; i++) {
+              newGradientColors.add(ColorsResources.applicationGeeksEmpire);
+            }
+
+            setState(() {
+
+              gradientColors = newGradientColors;
+
+            });
+
+            animationController.reset();
+            animationController.forward();
 
           } else {
 
