@@ -75,7 +75,6 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
     animationController.forward();
 
     animationColor..addListener(() {
-      // debugPrint("Animation Color: -> ${animationColor.value}");
 
       for (int index = 0; index < gradientLayersCount; index++) {
 
