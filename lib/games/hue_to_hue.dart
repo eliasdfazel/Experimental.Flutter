@@ -13,7 +13,7 @@ class HueToHue extends StatefulWidget {
   State<HueToHue> createState() => _HueToHueState();
 }
 
-class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin  {
+class _HueToHueState extends State<HueToHue> with TickerProviderStateMixin  {
 
   List<Color> allColors = [
     ColorsResources.lightestCyan,
@@ -32,25 +32,14 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
   List<Color> gradientColors = [];
 
-  List<Color> newGradientColors = [];
-
-  late AnimationController animationController;
-
   @override
   void initState() {
     super.initState();
 
-    animationController = AnimationController(vsync: this);
 
     for (int i = 0; i < gradientLayersCount; i++) {
-      newGradientColors.add(ColorsResources.applicationGeeksEmpire);
+      gradientColors.add(ColorsResources.applicationGeeksEmpire);
     }
-
-    setState(() {
-
-      newGradientColors;
-
-    });
 
     Future.delayed(const Duration(milliseconds: 1357), () {
 
@@ -61,14 +50,13 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
   }
 
   void animateColor(int animationDuration, Color beginColor, Color endColor) {
-
-    debugPrint("coooooooooloooooooooor");
-
-    animationController.duration = Duration(milliseconds: animationDuration);
+    debugPrint("Animate Colors Invoke");
 
     int gradientIndex = 0;
 
-    animationController.reset();
+    AnimationController animationController = AnimationController(vsync: this);
+
+    animationController.duration = Duration(milliseconds: animationDuration);
 
     Color previousColor = endColor;
 
@@ -82,19 +70,17 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
         if (gradientIndex == 0) {
 
-          previousColor = animationColor.value ?? ColorsResources.black;
-
         }
 
-        newGradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
+        gradientColors[gradientIndex] = animationColor.value ?? ColorsResources.black;
 
         if (index < gradientIndex) {
 
-          newGradientColors[index] = previousColor;
+          gradientColors[index] = previousColor;
 
         } else if (index > gradientIndex) {
 
-          newGradientColors[index] = beginColor;
+          gradientColors[index] = beginColor;
 
         }
 
@@ -102,7 +88,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
 
       setState(() {
 
-        gradientColors = newGradientColors;
+        gradientColors;
 
       });
 
@@ -117,30 +103,7 @@ class _HueToHueState extends State<HueToHue> with SingleTickerProviderStateMixin
           if (gradientIndex == gradientLayersCount) {
             debugPrint("Animation Status Restart");
 
-
-            setState(() {
-
-              gradientIndex = 0;
-
-
-              animationColor = ColorTween(begin: previousColor, end: allColors[Random().nextInt(allColors.length)]).animate(animationController);
-
-            });
-
-            newGradientColors.clear();
-
-            for (int i = 0; i < gradientLayersCount; i++) {
-              newGradientColors.add(ColorsResources.applicationGeeksEmpire);
-            }
-
-            setState(() {
-
-              gradientColors = newGradientColors;
-
-            });
-
-            animationController.reset();
-            animationController.forward();
+            animateColor(animationDuration, endColor, allColors[Random().nextInt(allColors.length)]);
 
           } else {
 
