@@ -119,8 +119,6 @@ void calculate(int lengthValue) {
 
   } else {
 
-    print(">>> >> > ${loopCounter - 1}");
-
   }
 
 }
