@@ -61,7 +61,6 @@ class _EntryConfigurationsState extends State<EntryConfigurations> with SingleTi
                                       ColorsResources.pink,
                                       ColorsResources.blueGray
                                     ],
-
                                     transform: GradientRotation(degreeToRadian(137))
                                 )
                             )
